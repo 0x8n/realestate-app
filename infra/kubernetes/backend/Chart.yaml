@@ -1,0 +1,6 @@
+apiVersion: v2
+name: backend
+description: A Helm chart for the Real Estate backend API
+type: application
+version: 0.1.0
+apiVersion: "1.0.0"

@@ -1,0 +1,3 @@
+#cloud-config
+runcmd:
+    - [ bash, /var/lib/cloud/scripts/setup.sh ]

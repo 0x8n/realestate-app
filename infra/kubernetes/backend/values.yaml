@@ -1,0 +1,11 @@
+replicaCount: 1
+image:
+  repository: realestate-backend
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service: 
+  type: NodePort
+  port: 80
+  targetPort: 8080
+  nodePort: 30080
