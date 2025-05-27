@@ -1,3 +1,11 @@
 #cloud-config
+hostname: ${vm_name}
+users:
+  - name: fedora
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh-authorized-keys:
+      - ${file("~/.ssh/id_rsa.pub")}
+
 runcmd:
-    - [ bash, /var/lib/cloud/scripts/setup.sh ]
+  - dnf update -y
