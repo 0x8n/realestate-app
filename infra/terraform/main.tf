@@ -11,6 +11,25 @@ provider "libvirt" {
   uri = "qemu:///system"
 }
 
+# SSH key Generation Block (Insert HERE)
+resource "null_resource" "ssh_keygen" {
+  provisioner "local-exec" {
+    command = <<EOT
+      [ -f ~/.ssh/id_ed25519 ] || ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -N "" -C "ansible@vm"
+    EOT
+  }
+  triggers = {
+    always_run = timestamp()
+  }
+}
+
+# Read SSH Public Key After Generating
+data "local_file" "public_key" {
+  filename = pathexpand("~/.ssh/id_ed25519.pub")
+  depends_on = [null_resource.ssh_keygen]
+}
+
+
 variable "vm_definitions" {
   type = list(object({
     name    = string
@@ -40,9 +59,14 @@ resource "libvirt_cloudinit_disk" "cloudinit" {
   for_each = { for vm in var.vm_definitions : vm.name => vm }
 
   name      = "${each.key}-cloudinit.iso"
-  user_data = file("${path.module}/cloudinit/user-data")
+  user_data = templatefile("${path.module}/cloudinit/user-data.tpl", {
+    public_ssh_key = chomp(data.local_file.public_key.content)
+  })
   meta_data = templatefile("${path.module}/cloudinit/meta-data.tpl", {
     vm_name = each.key
+  })
+  network_config = templatefile("${path.module}/cloudinit/network-config.tpl", {
+    ip = each.value.ip
   })
   pool = "default"
 }
