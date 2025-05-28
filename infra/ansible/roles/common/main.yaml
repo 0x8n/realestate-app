@@ -1,0 +1,9 @@
+---
+- name: Ensure basic packages are installed
+  dnf: 
+    name: "{{ packages }}"
+    state: present
+
+- name: Set hostname
+  hostname:
+    name: "{{ inventory_hostname }}"

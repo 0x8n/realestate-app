@@ -1,0 +1,7 @@
+---
+packages:
+  - vim 
+  - git
+  - curl 
+  - wget
+  - net-tools

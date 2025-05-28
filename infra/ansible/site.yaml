@@ -1,0 +1,12 @@
+---
+- name: Configure all nodes
+  hosts: all
+  become: true
+  roles: 
+    - common
+
+- name: Configure WireGuard node
+  hosts: WireGuard
+  become: true
+  roles: 
+    - wireguard
