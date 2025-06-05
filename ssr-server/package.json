@@ -1,0 +1,23 @@
+{
+  "name": "ssr-server",
+  "version": "1.0.0",
+  "main": "server.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && vite build --ssr src/entry-server.tsx && tsc server.ts --outdir dist/server",
+    "start": "node dist/server/server.js"
+  },
+  "dependencies": {
+    "express": "^4",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-router-dom": "^6.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "@vitejs/plugin-react": "^4",
+    "typescript": "^5",
+    "vite": "^6"
+  }
+}

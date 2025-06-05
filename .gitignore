@@ -1,2 +1,3 @@
 infra/terraform/images/
 backend.tar.gz
+**./node_modules
